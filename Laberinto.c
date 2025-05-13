@@ -41,9 +41,9 @@ void mostrar_mapa() {
 // Muestra una animación sencilla cuando el jugador gana
 void mostrar_animacion_ganaste() {
     system("cls");
-    printf("|--------------------|\n");
-    printf("|    GANASTEEEEEE    |\n");
-    printf("|--------------------|\n");
+    printf("                |--------------------|\n");
+    printf("                |    GANASTEEEEEE    |\n");
+    printf("                |--------------------|\n");
     Sleep(1000);  // Pausa antes de limpiar la pantalla y finalizar
     system("cls");
     Sleep(500);  // Pausa adicional para dar un efecto de animación
@@ -54,25 +54,32 @@ void sonido() {
     Beep(750, 300);  // Emite un sonido de 750Hz durante 300ms
 }
 
+
 void animacion_inicio() {
     system("cls");
-    printf("Cargando");
-    for (int i = 0; i < 3; i++) {
-        Sleep(500);
-        printf(".");
-    }
-    Sleep(800);
-    system("cls");
-    printf("Preparando el laberinto");
-    for (int i = 0; i < 3; i++) {
-        Sleep(500);
-        printf(".");
-    }
-    Sleep(800);
-    system("cls");
-    printf("¡Listo!\n");
+
+    for (int i = 0; i < 6; i++) printf("\n");
+    printf("                  =========================\n");
+    printf("                  |      CARGANDO...      |\n");
+    printf("                  =========================\n");
     Sleep(1000);
+    system("cls");
+
+    for (int i = 0; i < 6; i++) printf("\n");
+    printf("                  =========================\n");
+    printf("                  |    PREPARANDO JUEGO   |\n");
+    printf("                  =========================\n");
+    Sleep(1000);
+    system("cls");
+
+    for (int i = 0; i < 6; i++) printf("\n");
+    printf("                  =========================\n");
+    printf("                  |        ¡LISTO!        |\n");
+    printf("                  =========================\n");
+    Sleep(1000);
+    system("cls");
 }
+
 
 
 int main() {
