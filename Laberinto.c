@@ -26,25 +26,25 @@ char* mapa[FILAS] = {r0, r1, r2, r3, r4, r5, r6, r7, r8, r9};
 // Imprime el laberinto en consola
 void mostrar_mapa() {
     system("cls");
-    printf("╔══════════════════╗\n");
+    printf("----------------------\n");
     for (int i = 0; i < FILAS; i++) {
-        printf("║ ");
+        printf("| ");
         for (int j = 0; j < COLUMNAS; j++) {
             printf("%c ", mapa[i][j]);
         }
-        printf("║\n");
+        printf("|\n");
     }
-    printf("╚══════════════════╝\n");
+    printf("-----------------------\n");
     printf("Usa las flechas para moverte. ESC para salir.\n");
 }
 
 // Muestra una animación sencilla cuando el jugador gana
 void mostrar_animacion_ganaste() {
     system("cls");
-    printf("|------------------|\n");
+    printf("|--------------------|\n");
     printf("|    GANASTEEEEEE    |\n");
-    printf("|------------------|\n");
-    Sleep(500);  // Pausa antes de limpiar la pantalla y finalizar
+    printf("|--------------------|\n");
+    Sleep(1000);  // Pausa antes de limpiar la pantalla y finalizar
     system("cls");
     Sleep(500);  // Pausa adicional para dar un efecto de animación
 }
@@ -54,7 +54,30 @@ void sonido() {
     Beep(750, 300);  // Emite un sonido de 750Hz durante 300ms
 }
 
+void animacion_inicio() {
+    system("cls");
+    printf("Cargando");
+    for (int i = 0; i < 3; i++) {
+        Sleep(500);
+        printf(".");
+    }
+    Sleep(800);
+    system("cls");
+    printf("Preparando el laberinto");
+    for (int i = 0; i < 3; i++) {
+        Sleep(500);
+        printf(".");
+    }
+    Sleep(800);
+    system("cls");
+    printf("¡Listo!\n");
+    Sleep(1000);
+}
+
+
 int main() {
+    animacion_inicio();
+          // Llamada a la función de animación de inicio
     int pos_y = 1, pos_x = 1;
     bool en_juego = true;
 
