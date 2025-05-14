@@ -3,13 +3,20 @@
 #include <conio.h>
 #include <stdbool.h>
 
+// Códigos ANSI para colores
+#define COLOR_RESET   "\x1b[0m"
+#define COLOR_WALL    "\x1b[90m"  // Gris
+#define COLOR_PLAYER  "\x1b[92m"  // Verde
+#define COLOR_EXIT    "\x1b[91m"  // Rojo
+#define COLOR_TITLE   "\x1b[96m"  // Cian
+#define COLOR_BORDER  "\x1b[93m"  // Amarillo
+
 #define FILAS 10
 #define COLUMNAS 10
 
-// Declaración de la función ensamblador
 extern int mover_jugador_asm(char** mapa, int y, int x, char direccion);
 
-// Laberinto más visual
+// Laberinto
 char r0[COLUMNAS + 1] = "+--------+";
 char r1[COLUMNAS + 1] = "|P  |    |";  
 char r2[COLUMNAS + 1] = "|||-| || |";
@@ -23,131 +30,120 @@ char r9[COLUMNAS + 1] = "+--------+";
 
 char* mapa[FILAS] = {r0, r1, r2, r3, r4, r5, r6, r7, r8, r9};
 
-// Imprime el laberinto en consola
 void mostrar_mapa() {
     system("cls");
-    printf("----------------------\n");
+    printf(COLOR_BORDER "----------------------\n" COLOR_RESET);
     for (int i = 0; i < FILAS; i++) {
-        printf("| ");
+        printf(COLOR_BORDER "| " COLOR_RESET);
         for (int j = 0; j < COLUMNAS; j++) {
-            printf("%c ", mapa[i][j]);
+            char c = mapa[i][j];
+            if (c == '|') printf(COLOR_WALL "%c " COLOR_RESET, c);
+            else if (c == 'P') printf(COLOR_PLAYER "%c " COLOR_RESET, c);
+            else if (c == 'X') printf(COLOR_EXIT "%c " COLOR_RESET, c);
+            else printf("%c ", c);
         }
-        printf("|\n");
+        printf(COLOR_BORDER "|\n" COLOR_RESET);
     }
-    printf("-----------------------\n");
+    printf(COLOR_BORDER "----------------------\n" COLOR_RESET);
     printf("Usa las flechas para moverte. ESC para salir.\n");
 }
 
-// Muestra una animación sencilla cuando el jugador gana
 void mostrar_animacion_ganaste() {
     system("cls");
-    printf("                |--------------------|\n");
-    printf("                |    GANASTEEEEEE    |\n");
-    printf("                |--------------------|\n");
+    printf(COLOR_TITLE);
+    printf("  ██████╗  █████╗ ███╗   ██╗███████╗████████╗███████╗\n");
+    printf(" ██╔════╝ ██╔══██╗████╗  ██║██╔════╝╚══██╔══╝██╔════╝\n");
+    printf(" ██║  ███╗███████║██╔██╗ ██║███████╗   ██║   █████╗  \n");
+    printf(" ██║   ██║██╔══██║██║╚██╗██║╚════██║   ██║   ██╔══╝  \n");
+    printf(" ╚██████╔╝██║  ██║██║ ╚████║███████║   ██║   ███████╗\n");
+    printf("  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚══════╝\n");
+    printf(COLOR_RESET);
     Sleep(1000);  // Pausa antes de limpiar la pantalla y finalizar
     system("cls");
     Sleep(500);  // Pausa adicional para dar un efecto de animación
 }
 
-// Sonido cuando el jugador se mueve
 void sonido() {
-    Beep(750, 300);  // Emite un sonido de 750Hz durante 300ms
+    Beep(750, 300);
 }
 
+void ascii_art_line(const char* text) {
+    printf(COLOR_TITLE "\n\n     █████████████████████████████████████████████\n" COLOR_RESET);
+    printf(COLOR_TITLE "     █ " COLOR_RESET "%-40s" COLOR_TITLE " █\n" COLOR_RESET, text);
+    printf(COLOR_TITLE "     █████████████████████████████████████████████\n" COLOR_RESET);
+}
 
 void animacion_inicio() {
     system("cls");
-
-    for (int i = 0; i < 6; i++) printf("\n");
-    printf("                  =========================\n");
-    printf("                  |      CARGANDO...      |\n");
-    printf("                  =========================\n");
+    ascii_art_line("CARGANDO...");
     Sleep(1000);
     system("cls");
-
-    for (int i = 0; i < 6; i++) printf("\n");
-    printf("                  =========================\n");
-    printf("                  |    PREPARANDO JUEGO   |\n");
-    printf("                  =========================\n");
+    ascii_art_line("PREPARANDO JUEGO");
     Sleep(1000);
     system("cls");
-
-    for (int i = 0; i < 6; i++) printf("\n");
-    printf("                  =========================\n");
-    printf("                  |        ¡LISTO!        |\n");
-    printf("                  =========================\n");
+    ascii_art_line("¡LISTO!");
     Sleep(1000);
     system("cls");
 }
 
-
-
 int main() {
+    system("chcp 65001"); 
+
     animacion_inicio();
-          // Llamada a la función de animación de inicio
+
     int pos_y = 1, pos_x = 1;
     bool en_juego = true;
 
     while (en_juego) {
         mostrar_mapa();
 
-        int tecla = _getch();  // Captura la tecla
+        int tecla = _getch();
 
-        if (tecla == 27) {  // ESC
-            break;
-        }
+        if (tecla == 27) break;
 
-        if (tecla == 0 || tecla == 224) {  // Tecla especial (flecha)
-            tecla = _getch();  // Leer el código real
+        if (tecla == 0 || tecla == 224) {
+            tecla = _getch();
 
             char direccion;
-
             switch (tecla) {
-                case 72: direccion = 'W'; break;  // Flecha ↑
-                case 80: direccion = 'S'; break;  // Flecha ↓
-                case 75: direccion = 'A'; break;  // Flecha ←
-                case 77: direccion = 'D'; break;  // Flecha →
+                case 72: direccion = 'W'; break;
+                case 80: direccion = 'S'; break;
+                case 75: direccion = 'A'; break;
+                case 77: direccion = 'D'; break;
                 default: continue;
             }
 
-            // Verificar si el siguiente movimiento es válido
             int nuevo_y = pos_y, nuevo_x = pos_x;
-            switch (direccion) {
-                case 'W': nuevo_y--; break;  // Arriba
-                case 'S': nuevo_y++; break;  // Abajo
-                case 'A': nuevo_x--; break;  // Izquierda
-                case 'D': nuevo_x++; break;  // Derecha
-            }
+            if (direccion == 'W') nuevo_y--;
+            if (direccion == 'S') nuevo_y++;
+            if (direccion == 'A') nuevo_x--;
+            if (direccion == 'D') nuevo_x++;
 
-            // Comprobar si el siguiente espacio está bloqueado por una pared
             if (mapa[nuevo_y][nuevo_x] == '|') {
-                printf("Movimiento inválido. No puedes pasar por las paredes.\n");
-                Sleep(500);  // Pausa para que el jugador vea el mensaje
-                continue;  // No hacer el movimiento
+                printf(COLOR_EXIT "Movimiento inválido. Hay una pared.\n" COLOR_RESET);
+                Sleep(500);
+                continue;
             }
 
-            // Si no es una pared, mover al jugador
             int estado = mover_jugador_asm(mapa, pos_y, pos_x, direccion);
 
             switch (estado) {
                 case 0:
-                    printf("Movimiento inválido.\n");
+                    printf(COLOR_EXIT "Movimiento inválido.\n" COLOR_RESET);
                     Sleep(500);
                     break;
                 case 1:
-                    for (int i = 0; i < FILAS; i++) {
-                        for (int j = 0; j < COLUMNAS; j++) {
-                            if (mapa[i][j] == 'P') {  
+                    for (int i = 0; i < FILAS; i++)
+                        for (int j = 0; j < COLUMNAS; j++)
+                            if (mapa[i][j] == 'P') {
                                 pos_y = i;
                                 pos_x = j;
                             }
-                        }
-                    }
-                    sonido();  // Sonido al mover
+                    sonido();
                     break;
                 case 2:
                     mostrar_mapa();
-                    mostrar_animacion_ganaste();  // Muestra la animación de ganar
+                    mostrar_animacion_ganaste();
                     en_juego = false;
                     break;
             }
