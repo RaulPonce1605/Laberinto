@@ -49,18 +49,20 @@ void mostrar_mapa() {
 }
 
 void mostrar_animacion_ganaste() {
-    system("cls");
-    printf(COLOR_TITLE);
-    printf("  ██████╗  █████╗ ███╗   ██╗███████╗████████╗███████╗\n");
-    printf(" ██╔════╝ ██╔══██╗████╗  ██║██╔════╝╚══██╔══╝██╔════╝\n");
-    printf(" ██║  ███╗███████║██╔██╗ ██║███████╗   ██║   █████╗  \n");
-    printf(" ██║   ██║██╔══██║██║╚██╗██║╚════██║   ██║   ██╔══╝  \n");
-    printf(" ╚██████╔╝██║  ██║██║ ╚████║███████║   ██║   ███████╗\n");
-    printf("  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝   ╚══════╝\n");
-    printf(COLOR_RESET);
-    Sleep(1000);  // Pausa antes de limpiar la pantalla y finalizar
-    system("cls");
-    Sleep(500);  // Pausa adicional para dar un efecto de animación
+    for (int i = 0; i < 2; i++) {
+        system("cls");
+        printf(COLOR_TITLE);
+        printf("   ██████╗  █████╗ ███╗   ██╗ █████╗ ████████╗███████╗\n");
+        printf("  ██╔════╝ ██╔══██╗████╗  ██║██╔══██╗╚══██╔══╝██╔════╝\n");
+        printf("  ██║  ███╗███████║██╔██╗ ██║███████║   ██║   █████╗  \n");
+        printf("  ██║   ██║██╔══██║██║╚██╗██║██╔══██║   ██║   ██╔══╝  \n");
+        printf("  ╚██████╔╝██║  ██║██║ ╚████║██║  ██║   ██║   ███████╗\n");
+        printf("   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝   ╚═╝   ╚══════╝\n");
+        printf(COLOR_RESET);
+        Sleep(600);
+
+        system("cls"); // Borrado para el parpadeo
+        Sleep(3000);
 }
 
 void sonido() {
