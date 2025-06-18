@@ -32,7 +32,7 @@ char* mapa[FILAS] = {r0, r1, r2, r3, r4, r5, r6, r7, r8, r9};
 
 void mostrar_mapa() {
     system("cls");
-    printf(COLOR_BORDER "----------------------\n" COLOR_RESET);
+    printf(COLOR_BORDER "-----------------------\n" COLOR_RESET);
     for (int i = 0; i < FILAS; i++) {
         printf(COLOR_BORDER "| " COLOR_RESET);
         for (int j = 0; j < COLUMNAS; j++) {
@@ -44,7 +44,7 @@ void mostrar_mapa() {
         }
         printf(COLOR_BORDER "|\n" COLOR_RESET);
     }
-    printf(COLOR_BORDER "----------------------\n" COLOR_RESET);
+    printf(COLOR_BORDER "-----------------------\n" COLOR_RESET);
     printf("Usa las flechas para moverte. ESC para salir.\n");
 }
 
@@ -62,7 +62,7 @@ void mostrar_animacion_ganaste() {
         Sleep(6000);
 
         system("cls"); // Borrado para el parpadeo
-        Sleep(5000);
+        Sleep(3000);
     }
 }
 
@@ -72,7 +72,7 @@ void sonido() {
 
 void ascii_art_line(const char* text) {
     printf(COLOR_TITLE "\n\n     █████████████████████████████████████████████\n" COLOR_RESET);
-    printf(COLOR_TITLE "     █ " COLOR_RESET "%-40s" COLOR_TITLE " █\n" COLOR_RESET, text);
+    printf(COLOR_TITLE "     █ " COLOR_RESET "%-40s" COLOR_TITLE "   █\n" COLOR_RESET, text);
     printf(COLOR_TITLE "     █████████████████████████████████████████████\n" COLOR_RESET);
 }
 
@@ -124,7 +124,7 @@ int main() {
 
             if (mapa[nuevo_y][nuevo_x] == '|') {
                 printf(COLOR_EXIT "Movimiento inválido. Hay una pared.\n" COLOR_RESET);
-                Sleep(500);
+                Sleep(550);
                 continue;
             }
 
